@@ -18,3 +18,33 @@ body{
   align-items: center;
   display: flex;
 }
+
+.nav{
+  background-color: rgb(0, 0, 0);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  height: 60px;
+}
+
+.nav h2{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer{
+  background-color: rgb(0, 0, 0);
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 50px;
+}
+
+.fotphoto a{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
