@@ -1,11 +1,11 @@
 import React from 'react';
-import Coursetable from './components/tsx/coursestable';
+import Scanner from './components/tsx/scanner';
 
 
 function App() {
   return (
     <div className="App">
-        <Coursetable />
+        <Scanner />
     </div>
   );
 }
