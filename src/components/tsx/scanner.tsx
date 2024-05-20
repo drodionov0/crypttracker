@@ -30,11 +30,9 @@ const Scanner = () => {
                     </div>
                 </div>
                 <div className={styles.scans}>
-                    <ul>
                         {transactions.map((transaction, index) => (
-                        <li key={index}>{transaction.hash}</li>
+                            <p key={index}>hash: {transaction.hash}</p>
                         ))}
-                    </ul>
                 </div>
                 <div className={styles.footer}>
                     <div className={styles.fotphoto}>
