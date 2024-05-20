@@ -1,32 +1,25 @@
 import styles from '../styles/main.module.scss';
 import logo from '../images/github-mark-white.png'
-import { createClient } from '@layerzerolabs/scan-client';
-import { useEffect, useState } from 'react';
-
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 const Scanner = () => {
-
-    const [cryptoperation, setCryptoperation] = useState<any[]>([]);
     
+    const address = '0x0b673a48e761576b2bdea4b256f3935bfc2d8f2e';
+    const apikey = '6RXKB146BPI2QA13C2UJYT4G3YCAXY1T94';
+    const [transactions, setTransactions] = useState<any[]>([]);
+
     useEffect(() => {
-        const fetchData = async () => {
-            const client = createClient('mainnet');
-
+        const fetchTransaction = async () => {
             try{
-                const { messages } = await client.getMessagesBySrcTxHash(
-                    '0x0b673a48e761576b2bdea4b256f3935bfc2d8f2e',
-                );
-
-                setCryptoperation(messages)
-                console.log(cryptoperation)
-
+                const response = await axios.get(`https://api.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${apikey}`)
+                setTransactions(response.data.result);
+            } catch(error) {
+                console.error(error);
             }
-         catch (error) {
-            console.log(error)
         }
-    }
-        fetchData();
-    }, [])
+        fetchTransaction();
+    }, [address])
 
     return(
         <div className={styles}>
@@ -36,11 +29,13 @@ const Scanner = () => {
                         <h2>CRYPT CHECKER</h2>
                     </div>
                 </div>
-
-
-
-
-
+                <div className={styles.scans}>
+                    <ul>
+                        {transactions.map((transaction, index) => (
+                        <li key={index}>{transaction.hash}</li>
+                        ))}
+                    </ul>
+                </div>
                 <div className={styles.footer}>
                     <div className={styles.fotphoto}>
                         <a href='https://github.com/drodionov0'><img src={logo} alt='git' width='30px'></img></a>
