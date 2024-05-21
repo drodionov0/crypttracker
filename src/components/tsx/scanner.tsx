@@ -31,7 +31,9 @@ const Scanner = () => {
                 </div>
                 <div className={styles.scans}>
                         {transactions.map((transaction, index) => (
-                            <p key={index}>hash: {transaction.hash}</p>
+                            <div className={styles.ind}>
+                                <p className={styles.hash}>hash: </p><p className={styles.text} key={index}>{transaction.hash}</p>  <p className={styles.hash}>from: </p><p className={styles.text} key={index}>{transaction.from}</p>  <p className={styles.hash}>to:</p><p className={styles.text} key={index}>{transaction.to}</p>
+                            </div>
                         ))}
                 </div>
                 <div className={styles.footer}>
