@@ -80,8 +80,12 @@ body{
 .hash{
   margin-left: 10px;
   background-color: rgb(2, 0, 136);
-  width: 50px;
+  width: auto;
+  height: auto;
   border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .text{
   margin-left: 10px;
