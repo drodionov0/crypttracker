@@ -21,7 +21,7 @@ const Scanner = () => {
         };
         fetchAddresses();
       }, []);
-      
+
     useEffect(() => {
         const fetchTransactions = async () => {
             try {
@@ -53,11 +53,11 @@ const Scanner = () => {
                 {transactions.map((transaction, index) => (
                     <div className={styles.ind} key={`${transaction.hash}-${index}`}>
                         <div className={styles.hash}>hash: </div>
-                        <p className={styles.text}>{transaction.hash}</p>
+                            <p className={styles.text}>{transaction.hash}</p>
                         <div className={styles.hash}>from: </div>
-                        <p className={styles.text}>{transaction.from}</p>
+                            <p className={styles.text}>{transaction.from}</p>
                         <div className={styles.hash}>to:</div>
-                        <p className={styles.text}>{transaction.to}</p>
+                            <p className={styles.text}>{transaction.to}</p>
                     </div>
                 ))}
                 </div>
