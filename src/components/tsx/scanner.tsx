@@ -5,21 +5,41 @@ import { useState, useEffect } from 'react';
 
 const Scanner = () => {
     
-    const address = '0x0b673a48e761576b2bdea4b256f3935bfc2d8f2e';
     const apikey = '6RXKB146BPI2QA13C2UJYT4G3YCAXY1T94';
     const [transactions, setTransactions] = useState<any[]>([]);
+    const [addresses, setAddresses] = useState<string[]>([]);
 
     useEffect(() => {
-        const fetchTransaction = async () => {
-            try{
-                const response = await axios.get(`https://api.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${apikey}`)
-                setTransactions(response.data.result);
+        const fetchAddresses = async () => {
+          try {
+            const response = await axios.get('/addresses.txt');
+            const addressesArray = response.data.trim().split('\n');
+            setAddresses(addressesArray);
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        fetchAddresses();
+      }, []);
+      
+    useEffect(() => {
+        const fetchTransactions = async () => {
+            try {
+                const transactionsArray = [];
+                for (let i = 0; i < addresses.length; i++) {
+                    const response = await axios.get(`https://api.etherscan.io/api?module=account&action=txlist&address=${addresses[i]}&startblock=0&endblock=99999999&sort=asc&apikey=${apikey}`);
+                    transactionsArray.push(...response.data.result);
+                }
+                setTransactions(transactionsArray);
+                console.log(transactions);
             } catch(error) {
                 console.error(error);
             }
+        };
+        if(addresses.length > 0) {
+            fetchTransactions();
         }
-        fetchTransaction();
-    }, [address])
+    }, [addresses, apikey, transactions]);
 
     return(
         <div className={styles}>
@@ -30,11 +50,16 @@ const Scanner = () => {
                     </div>
                 </div>
                 <div className={styles.scans}>
-                        {transactions.map((transaction, index) => (
-                            <div className={styles.ind}>
-                                <div className={styles.hash}>hash: </div><p className={styles.text} key={index}>{transaction.hash}</p>  <div className={styles.hash}>from: </div><p className={styles.text} key={index}>{transaction.from}</p>  <div className={styles.hash}>to:</div><p className={styles.text} key={index}>{transaction.to}</p>
-                            </div>
-                        ))}
+                {transactions.map((transaction, index) => (
+                    <div className={styles.ind} key={`${transaction.hash}-${index}`}>
+                        <div className={styles.hash}>hash: </div>
+                        <p className={styles.text}>{transaction.hash}</p>
+                        <div className={styles.hash}>from: </div>
+                        <p className={styles.text}>{transaction.from}</p>
+                        <div className={styles.hash}>to:</div>
+                        <p className={styles.text}>{transaction.to}</p>
+                    </div>
+                ))}
                 </div>
                 <div className={styles.footer}>
                     <div className={styles.fotphoto}>
