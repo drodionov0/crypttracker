@@ -21,7 +21,7 @@ const Scanner = () => {
         };
         fetchAddresses();
       }, []);
-
+    
     useEffect(() => {
         const fetchTransactions = async () => {
             try {
@@ -31,15 +31,12 @@ const Scanner = () => {
                     transactionsArray.push(...response.data.result);
                 }
                 setTransactions(transactionsArray);
-                console.log(transactions);
             } catch(error) {
                 console.error(error);
             }
         };
-        if(addresses.length > 0) {
-            fetchTransactions();
-        }
-    }, [addresses, apikey, transactions]);
+        fetchTransactions();
+    }, [addresses]);
 
     return(
         <div className={styles}>
@@ -49,14 +46,24 @@ const Scanner = () => {
                         <h2>CRYPT CHECKER</h2>
                     </div>
                 </div>
+
+                <div className={styles.info}>
+                    <div className={styles.subinfo}>
+                        <p>Транзакций: {transactions.length}</p>
+                    </div>
+                    <div className={styles.subinfo}>
+                        <p>Кол-во кошельков: {addresses.length}</p>
+                    </div>
+                </div>
+
                 <div className={styles.scans}>
                 {transactions.map((transaction, index) => (
                     <div className={styles.ind} key={`${transaction.hash}-${index}`}>
-                        <div className={styles.hash}>hash: </div>
+                        <div className={styles.hash}>hash </div>
                             <p className={styles.text}>{transaction.hash}</p>
-                        <div className={styles.hash}>from: </div>
+                        <div className={styles.hash}>from </div>
                             <p className={styles.text}>{transaction.from}</p>
-                        <div className={styles.hash}>to:</div>
+                        <div className={styles.hash}>to</div>
                             <p className={styles.text}>{transaction.to}</p>
                     </div>
                 ))}
